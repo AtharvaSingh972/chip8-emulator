@@ -75,7 +75,7 @@ Close the window to quit.
 
 ## ROMs
 
-No ROMs are bundled with this repository. See [`roms/README.md`](roms/README.md) for where to download test ROMs and games.
+See [`rom/README.md`](rom/README.md) for instructions on downloading ROMs.
 
 Error-handling test ROMs are generated locally:
 
