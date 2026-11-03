@@ -1,6 +1,14 @@
 # CHIP-8 Emulator
 
-A CHIP-8 interpreter written in C with SDL2 for graphics and input. It implements the full 35-opcode CHIP-8 instruction set and passes the standard CHIP-8 test ROMs.
+A CHIP-8 interpreter written in C with SDL2 for graphics and input. It implements all 35 standard CHIP-8 opcodes and has been tested with the Timendus CHIP-8 test suite.
+
+## Screenshots
+
+### IBM Logo
+
+![IBM Logo running in the emulator](docs/ibm-logo.png)
+
+### PONG
 
 ![PONG running in the emulator](docs/pong.png)
 
@@ -8,7 +16,7 @@ A CHIP-8 interpreter written in C with SDL2 for graphics and input. It implement
 
 - All 35 standard CHIP-8 opcodes
 - 64×32 display, scaled 10× (640×320 window)
-- About 700 Hz CPU with separate 60 Hz delay and sound timers
+- Approximately 700 Hz CPU with separate 60 Hz delay and sound timers
 - 16-key hex keypad mapped to the keyboard, including the blocking `FX0A` key wait
 - Error detection for invalid or unsupported opcodes, stack overflow and underflow, and out-of-range PC or memory access, reported with the offending instruction and PC
 - Tested with the Timendus CHIP-8 test suite and PONG
@@ -41,26 +49,26 @@ Run the emulator with `./chip8 path/to/rom.ch8`. Close the window to quit.
 
 The original CHIP-8 hex keypad is mapped to the left side of the keyboard.
 
-| CHIP-8 key | Keyboard | | CHIP-8 key | Keyboard |
-|------------|----------|-|------------|----------|
-| 1          | 1        | | 4          | Q        |
-| 2          | 2        | | 5          | W        |
-| 3          | 3        | | 6          | E        |
-| C          | 4        | | D          | R        |
-| 7          | A        | | A          | Z        |
-| 8          | S        | | 0          | X        |
-| 9          | D        | | B          | C        |
-| E          | F        | | F          | V        |
+| CHIP-8 key | Keyboard | CHIP-8 key | Keyboard |
+|---|---|---|---|
+| 1 | 1 | 4 | Q |
+| 2 | 2 | 5 | W |
+| 3 | 3 | 6 | E |
+| C | 4 | D | R |
+| 7 | A | A | Z |
+| 8 | S | 0 | X |
+| 9 | D | B | C |
+| E | F | F | V |
 
 ## ROMs
 
-No ROMs are bundled with this repository. See [`roms/README.md`](roms/README.md) for where to download test ROMs and games.
+No ROMs are bundled with this repository. See [`rom/README.md`](rom/README.md) for instructions on downloading test ROMs and games.
 
 The error-handling test ROMs are generated locally with `python tools/rom_maker.py`.
 
 ## Testing
 
-The emulator passes all eight ROMs in the [Timendus CHIP-8 test suite](https://github.com/Timendus/chip8-test-suite):
+The emulator has been tested with the [Timendus CHIP-8 test suite](https://github.com/Timendus/chip8-test-suite):
 
 - [x] 1 - CHIP-8 logo
 - [x] 2 - IBM logo
@@ -68,8 +76,8 @@ The emulator passes all eight ROMs in the [Timendus CHIP-8 test suite](https://g
 - [x] 4 - Flags
 - [x] 5 - Quirks
 - [x] 6 - Keypad
-- [] 7 - sound timer verified; audio output not implemented)
-- [] 8 - Scrolling (SUPER-CHIP instructions not implemented)
+- [x] 7 - Beep (sound timer verified; audio output not implemented)
+- [ ] 8 - Scrolling (SUPER-CHIP instructions not implemented)
 
 `tools/rom_maker.py` generates ROMs that deliberately trigger each error path: stack overflow, stack underflow, invalid `5XY1`, `9XY1` and `8XY9`, and unsupported `0NNN`. Running any of them shows the emulator reporting the error instead of crashing.
 
