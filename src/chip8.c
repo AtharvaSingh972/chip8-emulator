@@ -1,9 +1,9 @@
 #include "chip8.h"
 
 #include <stdint.h>
-#include <stdio.h>    
-#include <stdlib.h>   
-#include <string.h>   
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 
@@ -30,7 +30,7 @@ static const uint8_t fontset[80] = {
 void chip8_init(Chip8 *chip){
     *chip = (Chip8){0} ;
     chip->pc = 0x200;    //Interpretor occupies the lower 512 bytes
-    
+
     for(int i = 0; i < 80; i++){
         chip->memory[i] = fontset[i];
     }
@@ -39,7 +39,7 @@ void chip8_init(Chip8 *chip){
 
 uint16_t chip8_fetch(Chip8 *chip){
 
-    if(chip->pc >= sizeof(chip->memory)){
+    if(chip->pc >= sizeof(chip->memory) - 1){
         printf("Memory access violation during fetch at PC: %04X\n",chip->pc);
         exit(1);
     }
@@ -266,19 +266,19 @@ void decoder(Chip8 *chip, uint16_t instruction){
                                chip->pc - 2);
                         exit(1);
                     }
-                
+
                     if(chip->keypad[chip->V[regX]]){
                         chip->pc += 2;
                     }
                     break;
-                
+
                 case 0xA1:
                     if(chip->V[regX] >= 16){
                         printf("Invalid keypad index in EXA1 at PC: %04X\n",
                                chip->pc - 2);
                         exit(1);
                     }
-                
+
                     if(!chip->keypad[chip->V[regX]]){
                         chip->pc += 2;
                     }
@@ -316,7 +316,7 @@ void decoder(Chip8 *chip, uint16_t instruction){
                                chip->pc - 2);
                         exit(1);
                     }
-                
+
                     chip->I = chip->V[regX] * 5;
                     break;
 
@@ -412,7 +412,3 @@ int load_rom(Chip8 *chip, const char *filename){
 
     return 1;
 }
-
-
-
-
