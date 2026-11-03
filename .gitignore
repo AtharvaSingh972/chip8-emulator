@@ -1,0 +1,7 @@
+chip8
+src/chip8
+*.o
+
+# ROMs: not redistributed, see roms/README.md
+roms/**/*.ch8
+!roms/README.mdPONG.ch8
