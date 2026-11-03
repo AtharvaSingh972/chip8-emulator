@@ -2,86 +2,61 @@
 
 A CHIP-8 interpreter written in C with SDL2 for graphics and input. It implements the full 35-opcode CHIP-8 instruction set and passes the standard CHIP-8 test ROMs.
 
-## Screenshots
-
-### IBM Logo
-![IBM Logo running in the emulator](docs/ibm-logo.png)
-
-### Pong
-![Pong running in the emulator](docs/pong.png)
+![PONG running in the emulator](docs/pong.png)
 
 ## Features
 
 - All 35 standard CHIP-8 opcodes
 - 64×32 display, scaled 10× (640×320 window)
-- ~700 Hz CPU with separate 60 Hz delay and sound timers
+- About 700 Hz CPU with separate 60 Hz delay and sound timers
 - 16-key hex keypad mapped to the keyboard, including the blocking `FX0A` key wait
-- Error detection for invalid or unsupported opcodes, stack overflow/underflow and out-of-range PC/memory access, reported with the offending instruction and PC
+- Error detection for invalid or unsupported opcodes, stack overflow and underflow, and out-of-range PC or memory access, reported with the offending instruction and PC
 - Tested with the Timendus CHIP-8 test suite and PONG
 
 ## Status
 
-| Feature                        | Status      |
-|--------------------------------|-------------|
-| CPU, display, input, timers    | Done        |
-| Sound (beep on `sound_timer`)  | Planned     |
-| Debugger (`--debug` mode)      | Planned     |
+| Feature                       | Status  |
+|-------------------------------|---------|
+| CPU, display, input, timers   | Done    |
+| Sound (beep on `sound_timer`) | Planned |
+| Debugger (`--debug` mode)     | Planned |
 
 ## Building
 
-**Requirements:** a C compiler (GCC or Clang), `make`, and the SDL2 development library.
+Requirements: a C compiler (GCC or Clang), `make`, and the SDL2 development library.
 
-```bash
-# Debian / Ubuntu
-sudo apt install build-essential libsdl2-dev
+Installing SDL2:
 
-# Fedora
-sudo dnf install gcc make SDL2-devel
+- Debian / Ubuntu: `sudo apt install build-essential libsdl2-dev`
+- Fedora: `sudo dnf install gcc make SDL2-devel`
+- macOS (Homebrew): `brew install sdl2`
 
-# macOS (Homebrew)
-brew install sdl2
-```
-
-Then build:
-
-```bash
-make
-```
+Then build with `make`.
 
 ## Usage
 
-```bash
-./chip8 path/to/rom.ch8
-```
+Run the emulator with `./chip8 path/to/rom.ch8`. Close the window to quit.
 
 ### Keypad
 
-The original CHIP-8 hex keypad is mapped to the left side of the keyboard:
+The original CHIP-8 hex keypad is mapped to the left side of the keyboard.
 
-```
-CHIP-8 keypad        Keyboard
-┌───┬───┬───┬───┐    ┌───┬───┬───┬───┐
-│ 1 │ 2 │ 3 │ C │    │ 1 │ 2 │ 3 │ 4 │
-├───┼───┼───┼───┤    ├───┼───┼───┼───┤
-│ 4 │ 5 │ 6 │ D │    │ Q │ W │ E │ R │
-├───┼───┼───┼───┤    ├───┼───┼───┼───┤
-│ 7 │ 8 │ 9 │ E │    │ A │ S │ D │ F │
-├───┼───┼───┼───┤    ├───┼───┼───┼───┤
-│ A │ 0 │ B │ F │    │ Z │ X │ C │ V │
-└───┴───┴───┴───┘    └───┴───┴───┴───┘
-```
-
-Close the window to quit.
+| CHIP-8 key | Keyboard | | CHIP-8 key | Keyboard |
+|------------|----------|-|------------|----------|
+| 1          | 1        | | 4          | Q        |
+| 2          | 2        | | 5          | W        |
+| 3          | 3        | | 6          | E        |
+| C          | 4        | | D          | R        |
+| 7          | A        | | A          | Z        |
+| 8          | S        | | 0          | X        |
+| 9          | D        | | B          | C        |
+| E          | F        | | F          | V        |
 
 ## ROMs
 
-See [`rom/README.md`](rom/README.md) for instructions on downloading ROMs.
+No ROMs are bundled with this repository. See [`roms/README.md`](roms/README.md) for where to download test ROMs and games.
 
-Error-handling test ROMs are generated locally:
-
-```bash
-python tools/rom_maker.py
-```
+The error-handling test ROMs are generated locally with `python tools/rom_maker.py`.
 
 ## Testing
 
@@ -93,23 +68,18 @@ The emulator passes all eight ROMs in the [Timendus CHIP-8 test suite](https://g
 - [x] 4 - Flags
 - [x] 5 - Quirks
 - [x] 6 - Keypad
-- [x] 7 - Beep (sound timer verified; audio output not implemented)
-- [ ] 8 - Scrolling (SUPER-CHIP instructions not implemented)
+- [] 7 - sound timer verified; audio output not implemented)
+- [] 8 - Scrolling (SUPER-CHIP instructions not implemented)
 
-`tools/rom_maker.py` generates ROMs that deliberately trigger each error path: stack overflow, stack underflow, invalid `5XY1` / `9XY1` / `8XY9`, and unsupported `0NNN`. Run any of them to see the emulator report the error instead of crashing.
+`tools/rom_maker.py` generates ROMs that deliberately trigger each error path: stack overflow, stack underflow, invalid `5XY1`, `9XY1` and `8XY9`, and unsupported `0NNN`. Running any of them shows the emulator reporting the error instead of crashing.
 
 ## Project layout
 
-```
-src/
-├── main.c       main loop, timing, ROM loading
-├── chip8.c/.h   CPU state, fetch/decode/execute, timers
-└── display.c/.h SDL2 window, rendering, keyboard input
-tools/
-└── rom_maker.py generates error-handling test ROMs
-roms/
-└── README.md    where to get ROMs (none bundled)
-```
+- `src/main.c`: main loop, timing and ROM loading
+- `src/chip8.c` and `src/chip8.h`: CPU state, fetch/decode/execute, timers
+- `src/display.c` and `src/display.h`: SDL2 window, rendering and keyboard input
+- `tools/rom_maker.py`: generates the error-handling test ROMs
+- `rom/README.md`: where to get ROMs (none bundled)
 
 ## Roadmap
 
